@@ -1,19 +1,40 @@
-import React from "react";
-import MyButton from './components/MyButton/MyButton';
-import Profile from "./components/Profile/Profile";
-import ShoppingList from "./components/ShoppingList/ShoppingList";
-import ComponentA from "./components/ComponentA/ComponentA";
+import { useState } from "react";
+import SearchBar from "./components/SearchBar/SearchBar";
+import ProductTable from "./components/ProductTable/ProductTable";
 
-export default function MyApp() {
-    const isLogged = true;
+function FilterableProductTable({ products }) {
+  const [filterText, setFilterText] = useState("");
+  const [inStockOnly, setInStockOnly] = useState(false);
+
   return (
     <div>
-      <h1>Welcome to my app!</h1>
-      {/* <MyButton /> */}
-      {/* <Profile /> */}
-      {/* {isLogged ? <Profile /> : <h1>You need to log in</h1>} */}
-      {/* <ShoppingList /> */}
-      <ComponentA />
+      <SearchBar
+        filterText={filterText}
+        inStockOnly={inStockOnly}
+        onFilterTextChange={setFilterText}
+        onInStockOnlyChange={setInStockOnly}
+      />
+      <ProductTable
+        products={products}
+        filterText={filterText}
+        inStockOnly={inStockOnly}
+      />
     </div>
   );
+}
+
+const PRODUCTS = [
+  { category: "Fruits", price: "$1", stocked: true, name: "Apple" },
+  { category: "Fruits", price: "$1", stocked: true, name: "Dragonfruit" },
+  { category: "Fruits", price: "$2", stocked: false, name: "Passionfruit" },
+  { category: "Vegetables", price: "$2", stocked: true, name: "Spinach" },
+  { category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },
+  { category: "Vegetables", price: "$1", stocked: true, name: "Peas" },
+  { category: "Meat", price: "$5", stocked: false, name: "Pork" },
+  { category: "Meat", price: "$8", stocked: true, name: "Beef" },
+  { category: "Meat", price: "$3", stocked: true, name: "Chicken" },
+];
+
+export default function App() {
+  return <FilterableProductTable products={PRODUCTS} />;
 }
