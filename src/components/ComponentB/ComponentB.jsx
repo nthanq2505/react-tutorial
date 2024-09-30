@@ -1,11 +1,18 @@
 import React from 'react'
+import { useContext } from 'react'
+import { counterContext } from '../ComponentA/ComponentA'
 
-function ComponentB(props) {
-    const {handleClick} = props
+function ComponentB() {
+  const { state, setState } = useContext(counterContext);
+
+  function handleClick() {
+    setState(state + 1);
+  }
+  
   return (
     <div>
         <h1>Component B</h1>
-        <button onClick={() => handleClick()}>Click meB</button>
+        <button onClick={() => handleClick()}>Click me B</button>
     </div>
   )
 }
