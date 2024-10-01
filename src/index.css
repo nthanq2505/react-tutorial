@@ -1,0 +1,37 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #e5e5e5;
+  align-items: center;
+  text-align: center;
+}
+
+.componentA {
+  padding: 20px;
+  margin: 20px;
+  width: 400px;
+  height: 400px;
+  border-radius: 10px;
+  border: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.componentB {
+  padding: 20px;
+  margin: 20px;
+  width: 300px;
+  height: 350px;
+  border-radius: 10px;
+  border: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}

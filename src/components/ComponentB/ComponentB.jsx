@@ -10,7 +10,7 @@ function ComponentB() {
   }
   
   return (
-    <div>
+    <div className='componentB'>
         <h1>Component B</h1>
         <button onClick={() => handleClick()}>Click me B</button>
     </div>

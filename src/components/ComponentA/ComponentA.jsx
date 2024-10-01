@@ -13,7 +13,7 @@ function ComponentA() {
 
   return (
     <counterContext.Provider value={{ state, setState }}>
-      <div>
+      <div className="componentA">
         <h1>Component A</h1>
         <h2>{state}</h2>
         <ComponentB />
