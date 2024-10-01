@@ -1,20 +1,15 @@
-import React from 'react'
-import { useContext } from 'react'
-import { counterContext } from '../ComponentA/ComponentA'
+import React from "react";
+import { useDispatch } from "react-redux";
+import { increment } from "../../features/counter/counterSlice";
 
 function ComponentB() {
-  const { state, setState } = useContext(counterContext);
-
-  function handleClick() {
-    setState(state + 1);
-  }
-  
+  const dispatch = useDispatch();
   return (
     <div>
-        <h1>Component B</h1>
-        <button onClick={() => handleClick()}>Click me B</button>
+      <h1>Component B</h1>
+      <button onClick={() => dispatch(increment())}>Click me B</button>
     </div>
-  )
+  );
 }
 
-export default ComponentB
+export default ComponentB;

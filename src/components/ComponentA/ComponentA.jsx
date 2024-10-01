@@ -1,25 +1,19 @@
 import React from "react";
-import { createContext, useContext, useState } from "react";
 import ComponentB from "../ComponentB/ComponentB";
-
-export const counterContext = createContext(null);
+import { useDispatch, useSelector } from "react-redux";
+import { increment } from "../../features/counter/counterSlice";
 
 function ComponentA() {
-  const [state, setState] = useState(0);
-
-  const handleClick = () => {
-    setState(state + 1);
-  };
+  const state = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
 
   return (
-    <counterContext.Provider value={{ state, setState }}>
-      <div>
-        <h1>Component A</h1>
-        <h2>{state}</h2>
-        <ComponentB />
-        <button onClick={handleClick}>Click me A </button>
-      </div>
-    </counterContext.Provider>
+    <div>
+      <h1>Component A</h1>
+      <h2>{state}</h2>
+      <ComponentB />
+      <button onClick={() => dispatch(increment())}>Click me A </button>
+    </div>
   );
 }
 
