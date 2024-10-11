@@ -1,0 +1,80 @@
+.auth-page {
+  display: flex;
+  flex-direction: row;
+}
+
+.left-content {
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  flex-grow: 2;
+  padding-left: 10%;
+  color: white;
+  gap: 20px;
+}
+
+.right-content {
+  background-color: white;
+  width: 35%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 60%;
+  gap: 40px;
+}
+
+.form__title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form p {
+  font-weight: 500;
+}
+
+.form__field-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+}
+
+.form-control {
+  display: flex;
+  gap: 2px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-error-message {
+  display: flex;
+  align-items: flex-start;
+}
+
+.form__bottom-container p {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.form__bottom-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+}
