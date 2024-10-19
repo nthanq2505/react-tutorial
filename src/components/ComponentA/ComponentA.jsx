@@ -3,7 +3,7 @@ import { useState } from "react";
 import ComponentB from "../ComponentB/ComponentB";
 
 function ComponentA() {
-  const [state, setState] = useState(0);
+  const [counter, setCounter] = useState(0);
   const handleClick = () => {
     setState((prevState) => prevState + 1);
   };
