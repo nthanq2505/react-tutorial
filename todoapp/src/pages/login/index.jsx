@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FormControl,
   FormLabel,
@@ -6,20 +6,70 @@ import {
   Input,
   Checkbox,
   FormErrorMessage,
-  Text,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import "../form.css";
+import { loginAPI } from "../../apis";
+import { login } from "../../redux/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+
+  const { isAuthenticated } = useSelector((state) => state);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
+
+  const onSubmit = async (data) => {
+    try {
+      const loginResult = await loginAPI(data);
+
+      if (loginResult) {
+        const { data } = loginResult?.data;
+        dispatch(login(data));
+        if (data?.rememberMe) {
+          localStorage.setItem("authToken", data?.token);
+        } else {
+          sessionStorage.setItem("authToken", data?.token);
+        }
+        navigate("/");
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response?.status === axios.HttpStatusCode.NotFound) {
+          setError("email", {
+            type: "manual",
+            message: error.response.data.message,
+          });
+        } else if (
+          error.response?.status === axios.HttpStatusCode.Unauthorized
+        ) {
+          setError("password", {
+            type: "manual",
+            message: error.response.data.message,
+          });
+        }
+      } else {
+        setError("email", {
+          type: "manual",
+          message: "Internal server error",
+        });
+      }
+    }
   };
   return (
     <form className="auth-page" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -80,7 +130,9 @@ const LoginPage = () => {
             </FormControl>
           </div>
           <div className="form__bottom-container">
-            <Checkbox colorScheme="teal">Remember me</Checkbox>
+            <Checkbox colorScheme="teal" {...register("rememberMe")}>
+              Remember me
+            </Checkbox>
             <Button
               type={"submit"}
               colorScheme="teal"

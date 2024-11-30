@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect } from "react";
 import {
   FormControl,
   FormLabel,
@@ -11,7 +10,8 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../form.css";
-
+import { useSelector } from "react-redux";
+import { registerAPI } from "../../apis";
 const RegisterPage = () => {
   const navigate = useNavigate();
   const {
@@ -21,24 +21,40 @@ const RegisterPage = () => {
     setError,
     getValues,
   } = useForm();
-  const onSubmit = (data) => {
-    axios
-      .post("http://localhost:8080/api/register", data)
-      .then((res) => {
-        if (res.status === 201) {
-          navigate("/login");
-        }
+
+  const { isAuthenticated } = useSelector(state => state)
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+  }, [isAuthenticated, navigate])
+  async function onSubmit(values) {
+    try {
+      const registerResult = await registerAPI({
+        fullName: values?.fullName,
+        email: values?.email,
+        password: values?.password
       })
-      .catch((err) => {
-        if (err.response.status && err.response.status === 409) {
-          setError("email", {
-            type: "manual",
-            message: "The user already exists",
-          });
+
+      if (registerResult) {
+        navigate('/login')
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response?.status === axios.HttpStatusCode.Conflict) {
+          setError('email', {
+            type: 'manual',
+            message: error.response.data.message
+          })
         }
-      })
-      .finally(() => {});
-  };
+      } else {
+        setError('email', {
+          type: 'manual',
+          message: 'Internal server error'
+        })
+      }
+    }
+  }
   return (
     <form className="auth-page" onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="left-content">

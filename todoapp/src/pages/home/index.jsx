@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, VStack } from "@chakra-ui/react";
 import Header from "../../components/header/index";
 import TaskManager from "../../components/taskManager";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/actions/userActions";
 
-const HomePage = () => {
+const Home = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useSelector((state) => state);
+  const token =
+    localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!token) {
+      if (isAuthenticated) {
+        dispatch(logout());
+      }
+      navigate("/login");
+    } else {
+      if (!isAuthenticated) navigate("/login");
+    }
+  }, [token, dispatch, navigate, isAuthenticated]);
   return (
     <Box
       w="100%"
@@ -28,4 +46,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Home;

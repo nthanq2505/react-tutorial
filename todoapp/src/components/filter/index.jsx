@@ -1,20 +1,20 @@
 import React from "react";
-import { HStack, Text, Radio, RadioGroup } from "@chakra-ui/react";
+import { HStack, Text, Radio, RadioGroup, Stack } from "@chakra-ui/react";
+import { StateOfFilterTasks } from "../../utils/constants";
 
-const Filter = () => {
+const Filter = (props) => {
+  const { filterValue, setFilterValue } = props
   return (
-    <RadioGroup defaultValue="1" size="md" colorScheme="teal">
-      <HStack spacing={4}>
-        <Text fontSize="16px" fontWeight="500" color="#1F2A37">
-          Filter:
-        </Text>
-        <Radio value="all">
-          <Text fontSize="14px">All</Text>
-        </Radio>
-        <Radio value="undone"><Text fontSize="14px">Undone</Text></Radio>
-        <Radio value="done"><Text fontSize="14px">Done</Text></Radio>
-      </HStack>
-    </RadioGroup>
+    <HStack spacing={5}>
+      <Text>Filter:</Text>
+      <RadioGroup colorScheme="teal" defaultValue={StateOfFilterTasks.ALL} value={filterValue} onChange={setFilterValue}>
+        <Stack direction='row' spacing={5}>
+          <Radio value={StateOfFilterTasks.ALL}><Text fontSize='sm'>All</Text></Radio>
+          <Radio value={StateOfFilterTasks.NOT_DONE}><Text fontSize='sm'>Undone</Text></Radio>
+          <Radio value={StateOfFilterTasks.DONE}><Text fontSize='sm'>Done</Text></Radio>
+        </Stack>
+      </RadioGroup>
+    </HStack>
   );
 };
 
